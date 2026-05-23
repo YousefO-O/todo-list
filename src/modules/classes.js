@@ -1,3 +1,11 @@
+export class Project {
+    constructor(title) {
+        this.title = title;
+        this.todoItems = [];
+        this.id = crypto.randomUUID();
+    };
+};
+
 export class TodoItem {
     constructor(title, description, dueDate, priority) {
         this.title = title;

@@ -1,14 +1,7 @@
 import './styles.css';
-import { Project } from './project-class.js';
-import { TodoItem } from './todo-item-class.js';
+import { createNewProject } from './modules/dataController.js';
+import { createNewTodoItem } from './modules/dataController.js';
 
-const dataController = (()=>{
-    const projects = [];
-    const createNewProject = (title) => {   
-        const newProject = new Project(title);
-        projects.push(newProject);
-    };
-    return {
-        createNewProject,
-    };
-})();
+// Default Project
+createNewProject('Todo List');
+createNewTodoItem('todo 1', 'todo 1 description', 'now', 'important');
