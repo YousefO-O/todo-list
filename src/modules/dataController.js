@@ -18,3 +18,14 @@ export const createNewTodoItem = (title, description, dueDate, priority,
     }
     console.log('No project has the ID you\'ve entered.');
 };
+
+export const deleteTodoItem = (todoItemId, parentProjectId ) => {
+    const parentProject = projects.find(project => project.id === parentProjectId);
+    if(parentProject) {
+        const todoItem = parentProject.todoItems.find(todoItem => todoItem.id === todoItemId);
+        if(todoItem) {
+            parentProject.deleteTodoItem(todoItem);
+            return
+        };
+    };
+};
