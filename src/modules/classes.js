@@ -20,5 +20,11 @@ export class Todo {
         this.dueDate = dueDate;
         this.priority = priority;
         this.id = crypto.randomUUID();
+        this.complete = false;
+    };
+
+    toggleCompleteStatus = () => {
+        this.complete = !this.complete;
+        console.log(`Set ${this.title} as ${this.complete ? 'complete' : 'incomplete'}`);
     };
 };

@@ -35,3 +35,11 @@ export const deleteTodo = (todoId, parentProjectId) => {
     parentProject.deleteTodo(todo);
     return  
 };
+
+export const toggleTodo = (todoId, parentProjectId) => {
+    const parentProject = findProject(parentProjectId);
+    if(!parentProject) return;
+    const todo = findTodo(todoId, parentProject);
+    if(!todo) return;
+    todo.toggleCompleteStatus();
+}   
