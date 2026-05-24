@@ -27,4 +27,11 @@ export class Todo {
         this.complete = !this.complete;
         console.log(`Set ${this.title} as ${this.complete ? 'complete' : 'incomplete'}`);
     };
+
+    editDetails = (newTitle, newDescription, newDueDate, newPriority) => {
+        this.title = newTitle;
+        this.description = newDescription;
+        this.dueDate = newDueDate;
+        this.priority = newPriority;
+    };
 };

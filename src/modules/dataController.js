@@ -43,3 +43,11 @@ export const toggleTodo = (todoId, parentProjectId) => {
     if(!todo) return;
     todo.toggleCompleteStatus();
 }   
+
+export const editTodoDetails = (todoId, parentProjectId, newTitle,
+    newDescription, newDueDate, newPriority) => {
+    const parentProject = findProject(parentProjectId);
+    if(!parentProject) return;
+    const todo = findTodo(todoId, parentProject);
+    todo.editDetails(newTitle, newDescription, newDueDate, newPriority);
+};
