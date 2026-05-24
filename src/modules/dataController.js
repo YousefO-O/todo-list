@@ -1,31 +1,37 @@
 import { Project } from './classes.js';
-import { TodoItem } from './classes.js';    
+import { Todo } from './classes.js';    
 
 const projects = [];
-export const createNewProject = (title) => {   
+
+const findProject = (projectId) => {
+    const project = projects.find(project => project.id === projectId);
+    return project;
+};
+
+const findTodo = (todoId, project) => {
+    const todo = project.todos.find(todo => todo.id == todoId);
+    return todo;
+};
+
+export const createProject = (title) => {   
     const newProject = new Project(title);
     projects.push(newProject);
 };
 
-export const createNewTodoItem = (title, description, dueDate, priority, 
+export const createTodo = (title, description, dueDate, priority, 
     parentProjectId = projects[0].id) => {
-    const newTodoItem = new TodoItem(title, description, dueDate, priority);
-    const parentProject = projects.find(project => project.id === parentProjectId);
-    if(parentProject) {
-        parentProject.todoItems.push(newTodoItem);
-        console.log('Successfully created todo item in: ' + parentProject.title);
-        return
-    }
-    console.log('No project has the ID you\'ve entered.');
+    const newTodo = new Todo(title, description, dueDate, priority);
+    const parentProject = findProject(parentProjectId);
+    if(!parentProject) return;
+    parentProject.todos.push(newTodo);
+    console.log('Successfully created todo in: ' + parentProject.title);
 };
 
-export const deleteTodoItem = (todoItemId, parentProjectId ) => {
-    const parentProject = projects.find(project => project.id === parentProjectId);
-    if(parentProject) {
-        const todoItem = parentProject.todoItems.find(todoItem => todoItem.id === todoItemId);
-        if(todoItem) {
-            parentProject.deleteTodoItem(todoItem);
-            return
-        };
-    };
+export const deleteTodo = (todoId, parentProjectId) => {
+    const parentProject = findProject(parentProjectId);
+    if(!parentProject) return
+    const todo = findTodo(todoId, parentProject);
+    if(!todo) return
+    parentProject.deleteTodo(todo);
+    return  
 };
