@@ -1,5 +1,6 @@
 import { Project } from './classes.js';
 import { Todo } from './classes.js';    
+import { loadTodos } from './DOMController.js';
 
 const projects = [];
 
@@ -25,6 +26,7 @@ export const createTodo = (title, description, dueDate, priority,
     if(!parentProject) return;
     parentProject.todos.push(newTodo);
     console.log('Successfully created todo in: ' + parentProject.title);
+    loadTodos(parentProject.todos, parentProjectId);
 };
 
 export const deleteTodo = (todoId, parentProjectId) => {
@@ -33,7 +35,7 @@ export const deleteTodo = (todoId, parentProjectId) => {
     const todo = findTodo(todoId, parentProject);
     if(!todo) return
     parentProject.deleteTodo(todo);
-    return  
+    loadTodos(parentProject.todos, parentProjectId);
 };
 
 export const toggleTodo = (todoId, parentProjectId) => {
