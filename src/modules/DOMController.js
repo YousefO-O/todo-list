@@ -1,4 +1,17 @@
 import { deleteTodo } from "./dataController.js";
+import { createTodo } from "./dataController.js";
+const newTodoDialog = document.querySelector('#new-todo-dialog');
+
+const closeDialogButtons = document.querySelectorAll('.close-dialog-button');
+[...closeDialogButtons].forEach(button => {
+    button.addEventListener('click', () => {
+        const dialog = document.querySelector(`#${button.dataset.dialogId}`);
+        dialog.close();
+    });
+});
+
+const newTodoForm = document.querySelector('#new-todo-form');
+newTodoForm.addEventListener('submit', handleNewTodoSubmit);
 
 function createTodoContainer(todo, parentProjectId) {
     const container = document.createElement('div');
@@ -33,9 +46,26 @@ function createTodoContainer(todo, parentProjectId) {
     return container;
 };
 
-export function loadTodos(todosArray, parentProjectId) {
+function createNewTodoButton() {
+    const newTodoButton = document.createElement('button');
+    newTodoButton.textContent = '+';
+    newTodoButton.addEventListener('click', ()=>{
+        newTodoDialog.showModal();
+    });
+    return newTodoButton;
+};
+
+export function loadProject(projectTodos, projectId) {
     const contentDiv = document.querySelector('#content');
+    console.log(contentDiv)
     contentDiv.replaceChildren('');
+    const newTodoButton = createNewTodoButton();
+    contentDiv.appendChild(newTodoButton);
+    loadTodos(projectTodos, projectId);
+}   
+
+function loadTodos(todosArray, parentProjectId) {
+    const contentDiv = document.querySelector('#content');
 
     const todosContainer = document.createElement('div');
     todosContainer.classList.add('todos-container');
@@ -45,4 +75,14 @@ export function loadTodos(todosArray, parentProjectId) {
         todosContainer.appendChild(todoContainer);
     });
     contentDiv.appendChild(todosContainer);
+};
+
+function handleNewTodoSubmit(event) {
+    event.preventDefault();
+    newTodoDialog.close();  
+    const title = document.querySelector('#todo-title').value;
+    const description = document.querySelector('#todo-description').value;
+    const dueDate = document.querySelector('#todo-due-date').value;
+    const priority = document.querySelector('#todo-priority').value;
+    createTodo(title, description, dueDate, priority);
 };
