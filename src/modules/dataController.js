@@ -53,4 +53,5 @@ export const editTodoDetails = (todoId, parentProjectId, newTitle,
     if(!parentProject) return;
     const todo = findTodo(todoId, parentProject);
     todo.editDetails(newTitle, newDescription, newDueDate, newPriority);
+    loadProject(parentProject.todos, parentProjectId);
 };

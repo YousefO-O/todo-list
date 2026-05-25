@@ -39,5 +39,34 @@
             </div>
         </form>
     </dialog>
+     <dialog id="edit-todo-dialog">
+        <form id="edit-todo-form" action="">
+            <h3>Edit Todo</h3>
+            <div>
+                <label for="edited-todo-title">Title</label>
+                <input type="text" name="edited-todo-title" id="edited-todo-title">
+            </div>
+            <div>
+                <label for="edited-todo-description">Description</label>
+                <textarea name="edited-todo-description" id="edited-todo-description">Enter description</textarea>
+            </div>
+            <div>
+                <label for="edited-todo-due-date">Due date</label>
+                <input type="date" name="edited-todo-due-date" id="edited-todo-due-date">
+            </div>
+            <div>
+                <label for="edit-todo-priority">Priority</label>
+                <select name="edit-todo-priority" id="edited-todo-priority">
+                    <option value="low">Low</option>
+                    <option value="medium">Medium</option>
+                    <option value="high">High</option>
+                </select>
+            </div>
+            <div>
+                <button type="button" class="close-dialog-button" data-dialog-id="edit-todo-dialog">Close</button>
+                <button type="submit">Edit</button>
+            </div>
+        </form>
+    </dialog>
 </body>
 </html>
