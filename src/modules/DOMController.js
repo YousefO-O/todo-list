@@ -26,6 +26,7 @@ editTodoForm.addEventListener('submit', (event) => {
 function createTodoContainer(todo, parentProjectId) {
     const container = document.createElement('div');
     container.classList.add('todo-container');
+    container.dataset.priority = todo.priority;
 
     const toggleContainer = document.createElement('div');
     const toggleButton = document.createElement('input');
