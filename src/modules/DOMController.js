@@ -33,8 +33,18 @@ function createTodoContainer(todo, parentProjectId) {
     toggleButton.type = 'checkbox';
     toggleContainer.appendChild(toggleButton);
 
-    const title = document.createElement('h3');
+    const title = document.createElement('button');
+    title.classList.add('todo-title');
     title.textContent = todo.title;
+
+    const description = document.createElement('p');
+    description.textContent = todo.description;
+    description.style.display = 'none';
+    
+    title.addEventListener('click', () => {
+        toggleDescriptionDisplay(description);
+    });
+
 
     const buttonsContainer = document.createElement('div');
     buttonsContainer.classList.add('buttons-container');
@@ -58,9 +68,15 @@ function createTodoContainer(todo, parentProjectId) {
 
     container.appendChild(toggleButton);
     container.appendChild(title);
+    container.appendChild(description);
     container.appendChild(buttonsContainer);
     container.appendChild(toggleButton);
     return container;
+};
+
+function toggleDescriptionDisplay(description) {
+    description.style.display == 'block' ? description.style.display = 'none' : 
+        description.style.display = 'block';
 };
 
 function createNewTodoButton() {
