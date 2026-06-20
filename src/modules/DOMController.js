@@ -28,23 +28,38 @@ function createTodoContainer(todo, parentProjectId) {
     const container = document.createElement('div');
     container.classList.add('todo-container');
     container.dataset.priority = todo.priority;
+    
+    const topContainer = document.createElement('div')
+    topContainer.classList.add('todo-top')
 
     const toggleContainer = document.createElement('div');
+    toggleContainer.classList.add('todo-toggle-container')
     const toggleButton = document.createElement('input');
     toggleButton.type = 'checkbox';
+    toggleButton.classList.add('todo-toggle-button')
     toggleContainer.appendChild(toggleButton);
+
+
+    const titleAndDateContainer = document.createElement('div')
+    titleAndDateContainer.classList.add('todo-title-and-date-container')
 
     const title = document.createElement('button');
     title.classList.add('todo-title');
     title.textContent = todo.title;
 
-    const dueDate = document.createElement('p');
+    const dueDate = document.createElement('span');
     dueDate.classList.add('todo-due-date')
     dueDate.textContent = intlFormatDistance(todo.dueDate, new Date())
+
+    titleAndDateContainer.appendChild(title)
+    titleAndDateContainer.appendChild(dueDate)
+
+    topContainer.appendChild(titleAndDateContainer)
 
     const description = document.createElement('p');
     description.textContent = todo.description;
     description.style.display = 'none';
+    description.classList.add('todo-description')
     
     title.addEventListener('click', () => {
         toggleDescriptionDisplay(description);
@@ -55,7 +70,6 @@ function createTodoContainer(todo, parentProjectId) {
     buttonsContainer.classList.add('buttons-container');
 
     const editButton = document.createElement('button');
-    buttonsContainer.appendChild(editButton);
     editButton.textContent = 'Edit';
     editButton.addEventListener('click', ()=> {
         editTodoForm.dataset.todoId = todo.id;
@@ -64,19 +78,21 @@ function createTodoContainer(todo, parentProjectId) {
         editTodoDialog.showModal();
     });
 
+    buttonsContainer.appendChild(editButton);
+
     const deleteButton = document.createElement('button');
-    buttonsContainer.appendChild(deleteButton);
     deleteButton.textContent = 'Delete';
     deleteButton.addEventListener('click', ()=>{
         deleteTodo(todo.id, parentProjectId);
     });
+    
+    buttonsContainer.appendChild(deleteButton);
 
-    container.appendChild(toggleButton);
-    container.appendChild(title);
-    container.appendChild(dueDate)
+    topContainer.appendChild(buttonsContainer)
+
+    container.appendChild(toggleContainer)
+    container.appendChild(topContainer)
     container.appendChild(description);
-    container.appendChild(buttonsContainer);
-    container.appendChild(toggleButton);
     return container;
 };
 
