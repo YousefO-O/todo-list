@@ -1,6 +1,7 @@
 import { deleteTodo } from "./dataController.js";
 import { createTodo } from "./dataController.js";
 import { editTodoDetails } from "./dataController.js";
+import { intlFormatDistance } from "date-fns";  
 
 const newTodoDialog = document.querySelector('#new-todo-dialog');
 const editTodoDialog = document.querySelector('#edit-todo-dialog');
@@ -37,6 +38,10 @@ function createTodoContainer(todo, parentProjectId) {
     title.classList.add('todo-title');
     title.textContent = todo.title;
 
+    const dueDate = document.createElement('p');
+    dueDate.classList.add('todo-due-date')
+    dueDate.textContent = intlFormatDistance(todo.dueDate, new Date())
+
     const description = document.createElement('p');
     description.textContent = todo.description;
     description.style.display = 'none';
@@ -68,6 +73,7 @@ function createTodoContainer(todo, parentProjectId) {
 
     container.appendChild(toggleButton);
     container.appendChild(title);
+    container.appendChild(dueDate)
     container.appendChild(description);
     container.appendChild(buttonsContainer);
     container.appendChild(toggleButton);
