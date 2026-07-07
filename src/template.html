@@ -19,15 +19,16 @@
             </div>
             <div>
                 <label for="todo-description">Description</label>
-                <textarea name="todo-description" id="todo-description" required></textarea>
+                <textarea name="todo-description" id="todo-description"></textarea>
             </div>
             <div>
                 <label for="todo-due-date">Due date</label>
-                <input type="datetime-local" name="todo-due-date" id="todo-due-date" required>
+                <input type="datetime-local" name="todo-due-date" id="todo-due-date">
             </div>
             <div>
                 <label for="todo-priority">Priority</label>
                 <select name="todo-priority" id="todo-priority">
+                    <option value="none">None</option>
                     <option value="low">Low</option>
                     <option value="medium">Medium</option>
                     <option value="high">High</option>
@@ -48,7 +49,7 @@
             </div>
             <div>
                 <label for="edited-todo-description">Description</label>
-                <textarea name="edited-todo-description" id="edited-todo-description">Enter description</textarea>
+                <textarea name="edited-todo-description" id="edited-todo-description"></textarea>
             </div>
             <div>
                 <label for="edited-todo-due-date">Due date</label>
@@ -57,6 +58,7 @@
             <div>
                 <label for="edit-todo-priority">Priority</label>
                 <select name="edit-todo-priority" id="edited-todo-priority">
+                    <option value="none">None</option>
                     <option value="low">Low</option>
                     <option value="medium">Medium</option>
                     <option value="high">High</option>

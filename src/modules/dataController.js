@@ -20,7 +20,7 @@ export const createProject = (title) => {
     loadProject(newProject.todos, newProject.id);
 };
 
-export const createTodo = (title, description, dueDate, priority, 
+export const createTodo = (title, description, dueDate, priority = 'none', 
     parentProjectId = projects[0].id) => {
     const newTodo = new Todo(title, description, dueDate, priority);
     const parentProject = findProject(parentProjectId);

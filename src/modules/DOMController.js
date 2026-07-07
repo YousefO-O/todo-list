@@ -49,22 +49,26 @@ function createTodoContainer(todo, parentProjectId) {
 
     const dueDate = document.createElement('span');
     dueDate.classList.add('todo-due-date')
-    dueDate.textContent = intlFormatDistance(todo.dueDate, new Date())
 
     titleAndDateContainer.appendChild(title)
-    titleAndDateContainer.appendChild(dueDate)
+    if(todo.dueDate) {
+        dueDate.textContent = intlFormatDistance(todo.dueDate, new Date())
+        titleAndDateContainer.appendChild(dueDate)
+    }
 
     topContainer.appendChild(titleAndDateContainer)
 
-    const description = document.createElement('p');
-    description.textContent = todo.description;
-    description.style.display = 'none';
-    description.classList.add('todo-description')
-    
-    title.addEventListener('click', () => {
-        toggleDescriptionDisplay(description);
-    });
-
+    let description
+    if(todo.description) {
+        description = document.createElement('p');
+        description.textContent = todo.description ? todo.description : ''
+        description.style.display = 'none';
+        description.classList.add('todo-description')
+        
+        title.addEventListener('click', () => {
+            toggleDescriptionDisplay(description);
+        });
+    }
 
     const buttonsContainer = document.createElement('div');
     buttonsContainer.classList.add('buttons-container');
@@ -92,7 +96,9 @@ function createTodoContainer(todo, parentProjectId) {
 
     container.appendChild(toggleContainer)
     container.appendChild(topContainer)
-    container.appendChild(description);
+    if(description) {
+        container.appendChild(description)
+    }
     return container;
 };
 
