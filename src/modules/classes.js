@@ -14,12 +14,13 @@ export class Project {
 };
 
 export class Todo {
-    constructor(title, description, dueDate, priority) {
+    constructor(title, description, dueDate, priority, projectId) {
         this.title = title;
         this.description = description;
         this.dueDate = dueDate;
         this.priority = priority;
         this.id = crypto.randomUUID();
+        this.projectId = projectId
         this.complete = false;
     };
 

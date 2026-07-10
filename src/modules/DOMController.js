@@ -3,12 +3,14 @@ import { createTodo } from "./dataController.js";
 import { editTodoDetails } from "./dataController.js";
 import { intlFormatDistance } from "date-fns";  
 
+let todoBeingEdited = null
+
 const newTodoDialog = document.querySelector('#new-todo-dialog');
 const editTodoDialog = document.querySelector('#edit-todo-dialog');
 
 const closeDialogButtons = document.querySelectorAll('.close-dialog-button');
 [...closeDialogButtons].forEach(button => {
-    button.addEventListener('click', () => {
+    button.addEventListener('click', (event) => {
         const dialog = document.querySelector(`#${button.dataset.dialogId}`);
         dialog.close();
     });
@@ -18,13 +20,9 @@ const newTodoForm = document.querySelector('#new-todo-form');
 newTodoForm.addEventListener('submit', handleNewTodoSubmit);
 
 const editTodoForm = document.querySelector('#edit-todo-form');
-editTodoForm.addEventListener('submit', (event) => {
-    const todoId = editTodoForm.dataset.todoId;
-    const parentProjectId = editTodoForm.dataset.parentProjectId;
-    handleEditTodoSubmit(event, todoId, parentProjectId);
-})
+editTodoForm.addEventListener('submit', handleEditTodoSubmit)
 
-function createTodoContainer(todo, parentProjectId) {
+function createTodoContainer(todo) {
     const container = document.createElement('div');
     container.classList.add('todo-container');
     container.dataset.priority = todo.priority;
@@ -76,8 +74,7 @@ function createTodoContainer(todo, parentProjectId) {
     const editButton = document.createElement('button');
     editButton.textContent = 'Edit';
     editButton.addEventListener('click', ()=> {
-        editTodoForm.dataset.todoId = todo.id;
-        editTodoForm.dataset.parentProjectId = parentProjectId;
+        todoBeingEdited = todo
         setEditTodoFormValues(todo.title, todo.description, todo.dueDate, todo.priority);
         editTodoDialog.showModal();
     });
@@ -87,7 +84,7 @@ function createTodoContainer(todo, parentProjectId) {
     const deleteButton = document.createElement('button');
     deleteButton.textContent = 'Delete';
     deleteButton.addEventListener('click', ()=>{
-        deleteTodo(todo.id, parentProjectId);
+        deleteTodo(todo.id, todo.projectId);
     });
     
     buttonsContainer.appendChild(deleteButton);
@@ -116,22 +113,22 @@ function createNewTodoButton() {
     return newTodoButton;
 };
 
-export function loadProject(projectTodos, projectId) {
+export function loadProject(projectTodos) {
     const contentDiv = document.querySelector('#content');
     contentDiv.replaceChildren('');
     const newTodoButton = createNewTodoButton();
     contentDiv.appendChild(newTodoButton);
-    loadTodos(projectTodos, projectId);
+    loadTodos(projectTodos);
 }   
 
-function loadTodos(todosArray, parentProjectId) {
+function loadTodos(todosArray) {
     const contentDiv = document.querySelector('#content');
 
     const todosContainer = document.createElement('div');
     todosContainer.classList.add('todos-container');
 
     todosArray.forEach(todo => {
-        const todoContainer = createTodoContainer(todo, parentProjectId);
+        const todoContainer = createTodoContainer(todo);
         todosContainer.appendChild(todoContainer);
     });
     contentDiv.appendChild(todosContainer);
@@ -147,14 +144,15 @@ function handleNewTodoSubmit(event) {
     createTodo(title, description, dueDate, priority);
 };
 
-function handleEditTodoSubmit(event, todoId, parentProjectId) {
+function handleEditTodoSubmit(event) {
     event.preventDefault();
     editTodoDialog.close();
     const title = document.querySelector('#edited-todo-title').value;
     const description = document.querySelector('#edited-todo-description').value;
     const dueDate = document.querySelector('#edited-todo-due-date').value;
     const priority = document.querySelector('#edited-todo-priority').value;
-    editTodoDetails(todoId, parentProjectId, title, description, dueDate, priority);
+    editTodoDetails(todoBeingEdited, title, description, dueDate, priority);
+    todoBeingEdited = null
 };
 
 function setEditTodoFormValues(title, description, dueDate, priority) {

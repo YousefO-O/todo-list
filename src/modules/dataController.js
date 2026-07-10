@@ -22,7 +22,7 @@ export const createProject = (title) => {
 
 export const createTodo = (title, description, dueDate, priority = 'none', 
     parentProjectId = projects[0].id) => {
-    const newTodo = new Todo(title, description, dueDate, priority);
+    const newTodo = new Todo(title, description, dueDate, priority, parentProjectId);
     const parentProject = findProject(parentProjectId);
     if(!parentProject) return;
     parentProject.todos.push(newTodo);
@@ -47,11 +47,10 @@ export const toggleTodo = (todoId, parentProjectId) => {
     todo.toggleCompleteStatus();
 }   
 
-export const editTodoDetails = (todoId, parentProjectId, newTitle,
+export const editTodoDetails = (todo, newTitle,
     newDescription, newDueDate, newPriority) => {
-    const parentProject = findProject(parentProjectId);
+    const parentProject = findProject(todo.projectId);
     if(!parentProject) return;
-    const todo = findTodo(todoId, parentProject);
     todo.editDetails(newTitle, newDescription, newDueDate, newPriority);
-    loadProject(parentProject.todos, parentProjectId);
+    loadProject(parentProject.todos);
 };
