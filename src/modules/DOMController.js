@@ -5,6 +5,13 @@ import { intlFormatDistance } from "date-fns";
 
 let todoBeingEdited = null
 
+function closeDialog(dialog) {
+    dialog.close();
+    if(dialog.querySelector('form')) {
+        dialog.querySelector('form').reset()
+    }
+}
+
 const newTodoDialog = document.querySelector('#new-todo-dialog');
 const editTodoDialog = document.querySelector('#edit-todo-dialog');
 
@@ -12,7 +19,7 @@ const closeDialogButtons = document.querySelectorAll('.close-dialog-button');
 [...closeDialogButtons].forEach(button => {
     button.addEventListener('click', (event) => {
         const dialog = document.querySelector(`#${button.dataset.dialogId}`);
-        dialog.close();
+        closeDialog(dialog)
     });
 });
 
@@ -136,22 +143,23 @@ function loadTodos(todosArray) {
 
 function handleNewTodoSubmit(event) {
     event.preventDefault();
-    newTodoDialog.close();  
+    // newTodoDialog.close();  
     const title = document.querySelector('#todo-title').value;
     const description = document.querySelector('#todo-description').value;
     const dueDate = document.querySelector('#todo-due-date').value;
     const priority = document.querySelector('#todo-priority').value;
     createTodo(title, description, dueDate, priority);
+    closeDialog(newTodoDialog)
 };
 
 function handleEditTodoSubmit(event) {
     event.preventDefault();
-    editTodoDialog.close();
     const title = document.querySelector('#edited-todo-title').value;
     const description = document.querySelector('#edited-todo-description').value;
     const dueDate = document.querySelector('#edited-todo-due-date').value;
     const priority = document.querySelector('#edited-todo-priority').value;
     editTodoDetails(todoBeingEdited, title, description, dueDate, priority);
+    closeDialog(editTodoDialog)
     todoBeingEdited = null
 };
 
