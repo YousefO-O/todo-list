@@ -1,7 +1,6 @@
 import { Project } from './classes.js';
 import { Todo } from './classes.js';    
-import { loadProject } from './DOMController.js';
-
+import { loadProject, loadProjects } from './DOMController.js';
 const projects = [];
 
 const findProject = (projectId) => {
@@ -17,8 +16,22 @@ const findTodo = (todoId, project) => {
 export const createProject = (title) => {   
     const newProject = new Project(title);
     projects.push(newProject);
-    loadProject(newProject.todos, newProject.id);
+    loadProjects(projects)
+    loadProject(newProject);
 };
+
+export const editProjectTitle = (projectId, newTitle) => {
+    const project = findProject(projectId)
+    if(!project) return
+    project.title = newTitle
+}
+
+export const deleteProject = projectId => {
+    const project = findProject(projectId)
+    const index = projects.indexOf(project)
+    projects.splice(index, 1)
+    loadProjects(projects)
+}
 
 export const createTodo = (title, description, dueDate, priority = 'none', 
     parentProjectId = projects[0].id) => {
@@ -27,7 +40,7 @@ export const createTodo = (title, description, dueDate, priority = 'none',
     if(!parentProject) return;
     parentProject.todos.push(newTodo);
     console.log('Successfully created todo in: ' + parentProject.title);
-    loadProject(parentProject.todos, parentProjectId);
+    loadProject(parentProject);
 };
 
 export const deleteTodo = (todoId, parentProjectId) => {
@@ -36,7 +49,7 @@ export const deleteTodo = (todoId, parentProjectId) => {
     const todo = findTodo(todoId, parentProject);
     if(!todo) return
     parentProject.deleteTodo(todo);
-    loadProject(parentProject.todos, parentProjectId);
+    loadProject(parentProject);
 };
 
 export const toggleTodo = (todoId, parentProjectId) => {
@@ -52,5 +65,5 @@ export const editTodoDetails = (todo, newTitle,
     const parentProject = findProject(todo.projectId);
     if(!parentProject) return;
     todo.editDetails(newTitle, newDescription, newDueDate, newPriority);
-    loadProject(parentProject.todos);
+    loadProject(parentProject);
 };

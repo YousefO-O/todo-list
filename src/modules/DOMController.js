@@ -1,8 +1,28 @@
 import { createTodo } from "./dataController.js";
 import { editTodoDetails } from "./dataController.js";
 import { createTodoContainer } from "./todo-component.js";
-
+import { createProject } from "./dataController.js";
+import { createProjectComponent } from "./project-component.js";
+let selectedProject = null
+export const setSelectedProject = (project) => selectedProject = project
 let todoBeingEdited = null
+
+const projectsContainer = document.querySelector('#projects-container')
+const addProjectButton = document.querySelector('#add-project-button')
+const newProjectForm = document.querySelector('#new-project-form')
+const newProjectDialog = document.querySelector('#new-project-dialog')
+addProjectButton.addEventListener('click', () => {
+    const newProjectDialog = document.querySelector('#new-project-dialog')
+    newProjectDialog.showModal()
+})
+
+newProjectForm.addEventListener('submit', (event) => {
+    event.preventDefault()
+    const title = document.querySelector('#project-title').value
+    createProject(title)
+    closeDialog(newProjectDialog)
+})
+
 export const setTodoBeingEdited = (value) => todoBeingEdited = value
 
 function closeDialog(dialog) {
@@ -45,15 +65,28 @@ function createNewTodoButton() {
     return newTodoButton;
 };
 
-export function loadProject(projectTodos) {
+export function loadProjects(projectsArray) {
+    projectsContainer.replaceChildren('')
+    const contentDiv = document.querySelector('#content');
+    contentDiv.replaceChildren('')
+    if(projectsArray.length == 0) return
+    projectsArray.forEach(project=>{
+        const projectComponent = createProjectComponent(project)
+        projectsContainer.appendChild(projectComponent)
+    })
+}
+
+export function loadProject(project) {
     const contentDiv = document.querySelector('#content');
     contentDiv.replaceChildren('');
     const newTodoButton = createNewTodoButton();
     contentDiv.appendChild(newTodoButton);
-    loadTodos(projectTodos);
+    selectedProject = project
+    loadTodos(project.todos);
 }   
 
 function loadTodos(todosArray) {
+    if(todosArray.length == 0) return
     const contentDiv = document.querySelector('#content');
 
     const todosContainer = document.createElement('div');
@@ -73,7 +106,7 @@ function handleNewTodoSubmit(event) {
     const description = document.querySelector('#todo-description').value;
     const dueDate = document.querySelector('#todo-due-date').value;
     const priority = document.querySelector('#todo-priority').value;
-    createTodo(title, description, dueDate, priority);
+    createTodo(title, description, dueDate, priority, selectedProject.id);
     closeDialog(newTodoDialog)
 };
 
