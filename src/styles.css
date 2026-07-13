@@ -18,6 +18,16 @@ h1 {
     border-left: 5px solid grey;
 }  
 
+
+.todo-container[data-completed="true"] {
+    opacity: .6;
+}
+
+.todo-container[data-completed="true"] .todo-title {
+    text-decoration-line: line-through;
+    text-decoration-thickness: .3rem;
+}
+
 .todo-container {
     display:grid;
     grid-template-columns: 30px auto;

@@ -1,24 +1,17 @@
 import { setEditTodoFormValues, setTodoBeingEdited } from "./DOMController.js";
 import { showEditTodoDialog, toggleDescriptionDisplay } from "./DOMController.js"
-import { deleteTodo } from "./dataController.js";
+import { deleteTodo, toggleTodo } from "./dataController.js";
 import { intlFormatDistance } from "date-fns";  
 
 export function createTodoContainer(todo) {
     const container = document.createElement('div');
     container.classList.add('todo-container');
     container.dataset.priority = todo.priority;
+    container.dataset.completed = todo.completed
     
     const topContainer = document.createElement('div')
     topContainer.classList.add('todo-top')
-
-    const toggleContainer = document.createElement('div');
-    toggleContainer.classList.add('todo-toggle-container')
-    const toggleButton = document.createElement('input');
-    toggleButton.type = 'checkbox';
-    toggleButton.classList.add('todo-toggle-button')
-    toggleContainer.appendChild(toggleButton);
-
-
+    
     const titleAndDateContainer = document.createElement('div')
     titleAndDateContainer.classList.add('todo-title-and-date-container')
 
@@ -36,18 +29,6 @@ export function createTodoContainer(todo) {
     }
 
     topContainer.appendChild(titleAndDateContainer)
-
-    let description
-    if(todo.description) {
-        description = document.createElement('p');
-        description.textContent = todo.description ? todo.description : ''
-        description.style.display = 'none';
-        description.classList.add('todo-description')
-        
-        title.addEventListener('click', () => {
-            toggleDescriptionDisplay(description);
-        });
-    }
 
     const buttonsContainer = document.createElement('div');
     buttonsContainer.classList.add('buttons-container');
@@ -69,6 +50,37 @@ export function createTodoContainer(todo) {
     });
     
     buttonsContainer.appendChild(deleteButton);
+
+    const toggleContainer = document.createElement('div');
+    toggleContainer.classList.add('todo-toggle-container')
+    const toggleButton = document.createElement('input');
+    toggleButton.type = 'checkbox';
+    toggleButton.classList.add('todo-toggle-button')
+    toggleButton.addEventListener('change', () => {
+        toggleTodo(todo)
+        container.dataset.completed = todo.complete
+        title.disabled = todo.complete
+        editButton.disabled = todo.complete
+        deleteButton.disabled = todo.complete
+    })
+    toggleContainer.appendChild(toggleButton);
+
+
+    
+
+    let description
+    if(todo.description) {
+        description = document.createElement('p');
+        description.textContent = todo.description ? todo.description : ''
+        description.style.display = 'none';
+        description.classList.add('todo-description')
+        
+        title.addEventListener('click', () => {
+            toggleDescriptionDisplay(description);
+        });
+    }
+
+    
 
     topContainer.appendChild(buttonsContainer)
 

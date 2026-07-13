@@ -52,11 +52,7 @@ export const deleteTodo = (todoId, parentProjectId) => {
     loadProject(parentProject);
 };
 
-export const toggleTodo = (todoId, parentProjectId) => {
-    const parentProject = findProject(parentProjectId);
-    if(!parentProject) return;
-    const todo = findTodo(todoId, parentProject);
-    if(!todo) return;
+export const toggleTodo = (todo) => {
     todo.toggleCompleteStatus();
 }   
 
