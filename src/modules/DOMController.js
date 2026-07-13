@@ -40,8 +40,8 @@ export const showEditTodoDialog = () => editTodoDialog.showModal()
 const closeDialogButtons = document.querySelectorAll('.close-dialog-button');
 [...closeDialogButtons].forEach(button => {
     button.addEventListener('click', (event) => {
-        const dialog = document.querySelector(`#${button.dataset.dialogId}`);
-        closeDialog(dialog)
+        const dialog = document.querySelector('dialog[open]')
+        if(dialog) closeDialog(dialog)
     });
 });
 
@@ -101,7 +101,6 @@ function loadTodos(todosArray) {
 
 function handleNewTodoSubmit(event) {
     event.preventDefault();
-    // newTodoDialog.close();  
     const title = document.querySelector('#todo-title').value;
     const description = document.querySelector('#todo-description').value;
     const dueDate = document.querySelector('#todo-due-date').value;
