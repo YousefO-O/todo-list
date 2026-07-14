@@ -17,20 +17,14 @@ addProjectButton.addEventListener('click', () => {
 })
 
 newProjectForm.addEventListener('submit', (event) => {
+    newProjectDialog.close()
     event.preventDefault()
     const title = document.querySelector('#project-title').value
     createProject(title)
-    closeDialog(newProjectDialog)
+    newProjectForm.reset()
 })
 
 export const setTodoBeingEdited = (value) => todoBeingEdited = value
-
-function closeDialog(dialog) {
-    dialog.close();
-    if(dialog.querySelector('form')) {
-        dialog.querySelector('form').reset()
-    }
-}
 
 const newTodoDialog = document.querySelector('#new-todo-dialog');
 const editTodoDialog = document.querySelector('#edit-todo-dialog');
@@ -41,7 +35,7 @@ const closeDialogButtons = document.querySelectorAll('.close-dialog-button');
 [...closeDialogButtons].forEach(button => {
     button.addEventListener('click', (event) => {
         const dialog = document.querySelector('dialog[open]')
-        if(dialog) closeDialog(dialog)
+        if(dialog) dialog.close()
     });
 });
 
@@ -101,22 +95,24 @@ function loadTodos(todosArray) {
 
 function handleNewTodoSubmit(event) {
     event.preventDefault();
+    newTodoDialog.close()
     const title = document.querySelector('#todo-title').value;
     const description = document.querySelector('#todo-description').value;
     const dueDate = document.querySelector('#todo-due-date').value;
     const priority = document.querySelector('#todo-priority').value;
     createTodo(title, description, dueDate, priority, selectedProject.id);
-    closeDialog(newTodoDialog)
+    newTodoForm.reset()
 };
 
 function handleEditTodoSubmit(event) {
     event.preventDefault();
+    editTodoDialog.close()
     const title = document.querySelector('#edited-todo-title').value;
     const description = document.querySelector('#edited-todo-description').value;
     const dueDate = document.querySelector('#edited-todo-due-date').value;
     const priority = document.querySelector('#edited-todo-priority').value;
     editTodoDetails(todoBeingEdited, title, description, dueDate, priority);
-    closeDialog(editTodoDialog)
+    editTodoForm.reset()
     todoBeingEdited = null
 };
 
