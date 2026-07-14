@@ -46,7 +46,7 @@ export function createTodoContainer(todo) {
     const deleteButton = document.createElement('button');
     deleteButton.textContent = 'Delete';
     deleteButton.addEventListener('click', ()=>{
-        deleteTodo(todo.id, todo.projectId);
+        deleteTodo(todo.id);
     });
     
     buttonsContainer.appendChild(deleteButton);

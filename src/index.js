@@ -5,4 +5,3 @@ import { deleteTodo } from './modules/dataController.js';
 import { toggleTodo } from './modules/dataController.js';
 import { editTodoDetails } from './modules/dataController.js';
 // Default Project
-createProject('Todo List');

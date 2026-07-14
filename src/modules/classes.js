@@ -1,8 +1,8 @@
 export class Project {
-    constructor(title) {
-        this.title = title;
-        this.todos = [];
-        this.id = crypto.randomUUID();
+    constructor(data) {
+        this.title = data.title;
+        this.todos = data.todos || [];
+        this.id = data.id || crypto.randomUUID();
     };
     deleteTodo = (todo) => {
         if(!todo) return
@@ -14,14 +14,13 @@ export class Project {
 };
 
 export class Todo {
-    constructor(title, description, dueDate, priority, projectId) {
-        this.title = title;
-        this.description = description;
-        this.dueDate = dueDate;
-        this.priority = priority;
-        this.id = crypto.randomUUID();
-        this.projectId = projectId
-        this.complete = false;
+    constructor(data) {
+        this.title = data.title;
+        this.description = data.description;
+        this.dueDate = data.dueDate;
+        this.priority = data.priority;
+        this.id = data.id || crypto.randomUUID();
+        this.complete = data.complete || false;
     };
 
     toggleCompleteStatus = () => {
