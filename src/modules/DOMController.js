@@ -21,7 +21,6 @@ newProjectForm.addEventListener('submit', (event) => {
     event.preventDefault()
     const title = document.querySelector('#project-title').value
     createProject(title)
-    newProjectForm.reset()
 })
 
 export const setTodoBeingEdited = (value) => todoBeingEdited = value
@@ -38,6 +37,13 @@ const closeDialogButtons = document.querySelectorAll('.close-dialog-button');
         if(dialog) dialog.close()
     });
 });
+
+const dialogs = document.querySelectorAll('dialog');
+[...dialogs].forEach(dialog => {
+    dialog.addEventListener('close', () => {
+        dialog.querySelector('form').reset()
+    })
+})
 
 const newTodoForm = document.querySelector('#new-todo-form');
 newTodoForm.addEventListener('submit', handleNewTodoSubmit);
@@ -101,7 +107,6 @@ function handleNewTodoSubmit(event) {
     const dueDate = document.querySelector('#todo-due-date').value;
     const priority = document.querySelector('#todo-priority').value;
     createTodo(title, description, dueDate, priority, selectedProject.id);
-    newTodoForm.reset()
 };
 
 function handleEditTodoSubmit(event) {
@@ -112,7 +117,6 @@ function handleEditTodoSubmit(event) {
     const dueDate = document.querySelector('#edited-todo-due-date').value;
     const priority = document.querySelector('#edited-todo-priority').value;
     editTodoDetails(todoBeingEdited, title, description, dueDate, priority);
-    editTodoForm.reset()
     todoBeingEdited = null
 };
 
