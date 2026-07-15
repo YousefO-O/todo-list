@@ -64,7 +64,12 @@ const findTodo = (todoId) => {
     return {parentProject, todo};
 };
 
-export const createProject = (title) => {   
+export const createProject = (title) => {
+    if(title.trim().length == 0) {
+        console.warn('Project title must contain at least one none-space character!')
+        return
+    }
+    const trimmedTitle = title.trim()
     const newProject = new Project({title});
     projects.push(newProject);
     loadProjects(projects)
@@ -73,9 +78,14 @@ export const createProject = (title) => {
 };
 
 export const editProjectTitle = (projectId, newTitle) => {
+    if(newTitle.trim().length == 0) {
+        console.warn('Project title must contain at least one none-space character!')
+        return
+    }
     const project = findProject(projectId)
     if(!project) return
-    project.title = newTitle
+    project.title = newTitle.trim()
+    loadProjects(projects)
     saveData()
 }
 

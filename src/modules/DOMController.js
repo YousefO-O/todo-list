@@ -1,19 +1,28 @@
 import { createTodo } from "./dataController.js";
 import { editTodoDetails } from "./dataController.js";
 import { createTodoContainer } from "./todo-component.js";
-import { createProject } from "./dataController.js";
+import { createProject, editProjectTitle } from "./dataController.js";
 import { createProjectComponent } from "./project-component.js";
 let selectedProject = null
 export const setSelectedProject = (project) => selectedProject = project
 let todoBeingEdited = null
+let projectBeingEdited = null
 
 const projectsContainer = document.querySelector('#projects-container')
 const addProjectButton = document.querySelector('#add-project-button')
 const newProjectForm = document.querySelector('#new-project-form')
 const newProjectDialog = document.querySelector('#new-project-dialog')
+const editProjectForm = document.querySelector('#edit-project-form')
+const editProjectDialog = document.querySelector('#edit-project-dialog')
 addProjectButton.addEventListener('click', () => {
-    const newProjectDialog = document.querySelector('#new-project-dialog')
     newProjectDialog.showModal()
+})
+
+editProjectForm.addEventListener('submit', (event) => {
+    editProjectDialog.close()
+    event.preventDefault()
+    const title = document.querySelector('#edited-project-title').value
+    editProjectTitle(projectBeingEdited.id, title)
 })
 
 newProjectForm.addEventListener('submit', (event) => {
@@ -24,6 +33,7 @@ newProjectForm.addEventListener('submit', (event) => {
 })
 
 export const setTodoBeingEdited = (value) => todoBeingEdited = value
+export const setProjectBeingEdited = (value) => projectBeingEdited = value
 
 const newTodoDialog = document.querySelector('#new-todo-dialog');
 const editTodoDialog = document.querySelector('#edit-todo-dialog');

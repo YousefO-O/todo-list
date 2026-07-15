@@ -1,11 +1,10 @@
-import { loadProject } from "./DOMController.js"
+import { loadProject, setEditProjectFormValues } from "./DOMController.js"
 import { editProjectTitle, deleteProject } from "./dataController.js"
-import { setSelectedProject } from "./DOMController.js"
+import { setSelectedProject, setProjectBeingEdited } from "./DOMController.js"
 
 export function createProjectComponent(project) {
     const container = document.createElement('div')
     container.classList.add('project-component')
-    let isEditingProject = false
 
     const title = document.createElement('button')
     title.textContent = project.title
@@ -15,41 +14,15 @@ export function createProjectComponent(project) {
         loadProject(project)
     })
     
-    const titleInput = document.createElement('input')
-    titleInput.maxLength = '20'
-
-    function editProject() {
-        if(!isEditingProject) return
-        isEditingProject = false
-        editProjectTitle(project.id, titleInput.value)
-        title.textContent = project.title
-        titleInput.replaceWith(title)
-        editButton.textContent = 'Edit'
-    }
-
-    titleInput.addEventListener('keydown', event => {
-        console.log(event.key)
-        if(event.key === 'Enter') {
-            editProject()
-        }
-    })
-    
     const buttonsContainer = document.createElement('div')
     
     const editButton = document.createElement('button')
     editButton.classList.add('edit-project-button')
     editButton.textContent = 'Edit'
     editButton.addEventListener('click', () => {
-        if(!isEditingProject) {
-            isEditingProject = true
-            titleInput.value = title.textContent
-            title.replaceWith(titleInput)
-            titleInput.focus()
-            editButton.textContent = 'Save'
-        }
-        else {
-            editProject()
-        }
+        setProjectBeingEdited(project)
+        document.querySelector('#edited-project-title').value = project.title; 
+        document.querySelector('#edit-project-dialog').showModal()
     })
 
     const deleteButton = document.createElement('button')
