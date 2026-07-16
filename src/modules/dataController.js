@@ -103,6 +103,10 @@ export const createTodo = (title, description, dueDate, priority = 'none',
     const newTodo = new Todo({title, description, dueDate, priority, parentProjectId});
     const parentProject = findProject(parentProjectId);
     if(!parentProject) return;
+    if(title.trim().length == 0) {
+        console.warn('Todo title must contain at least one none-space character!')
+        return
+    }
 
     parentProject.todos.push(newTodo);
     console.log('Successfully created todo in: ' + parentProject.title);
@@ -132,7 +136,12 @@ export const editTodoDetails = (todo, newTitle,
     console.log(todo)
     const parentProject = findProjectByTodoId(todo.id);
     if(!parentProject) return;
-    todo.editDetails(newTitle, newDescription, newDueDate, newPriority);
+    if(newTitle.trim().length == 0) {
+        console.warn('Todo title must contain at least one none-space character!')
+        return
+    }
+    todo.editDetails(newTitle.trim(), newDescription, newDueDate, newPriority);
+    console.log(newTitle)
     loadProject(parentProject);
     saveData()
 };
