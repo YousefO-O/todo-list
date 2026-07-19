@@ -1,6 +1,5 @@
-import { loadProject, setEditProjectFormValues } from "./DOMController.js"
+import { loadProject, setProjectBeingEdited } from "./DOMController.js"
 import { editProjectTitle, deleteProject } from "./dataController.js"
-import { setSelectedProject, setProjectBeingEdited } from "./DOMController.js"
 
 export function createProjectComponent(project) {
     const container = document.createElement('div')
@@ -11,7 +10,8 @@ export function createProjectComponent(project) {
     title.textContent = project.title
     title.classList.add('view-project-button')
     title.addEventListener('click', ()=>{
-        setSelectedProject(project)
+        if(container.dataset.selected === 'true') return;
+        console.log('Loading project..')
         loadProject(project)
     })
     

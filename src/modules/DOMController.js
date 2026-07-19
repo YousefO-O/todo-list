@@ -5,7 +5,6 @@ import { createProject, editProjectTitle } from "./dataController.js";
 import { createProjectComponent } from "./project-component.js";
 import { saveKey } from "./dataController.js";
 let selectedProject = null
-export const setSelectedProject = (project) => selectedProject = project
 let todoBeingEdited = null
 let projectBeingEdited = null
 

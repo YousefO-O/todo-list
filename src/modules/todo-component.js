@@ -7,7 +7,7 @@ export function createTodoContainer(todo) {
     const container = document.createElement('div');
     container.classList.add('todo-container');
     container.dataset.priority = todo.priority;
-    container.dataset.completed = todo.completed
+    container.dataset.completed = todo.complete
     
     const topContainer = document.createElement('div')
     topContainer.classList.add('todo-top')
@@ -56,6 +56,7 @@ export function createTodoContainer(todo) {
     const toggleButton = document.createElement('input');
     toggleButton.type = 'checkbox';
     toggleButton.classList.add('todo-toggle-button')
+    toggleButton.checked = todo.complete
     toggleButton.addEventListener('change', () => {
         toggleTodo(todo)
         container.dataset.completed = todo.complete
@@ -65,8 +66,9 @@ export function createTodoContainer(todo) {
     })
     toggleContainer.appendChild(toggleButton);
 
-
-    
+    title.disabled = todo.complete
+    editButton.disabled = todo.complete
+    deleteButton.disabled = todo.complete
 
     let description
     if(todo.description) {
