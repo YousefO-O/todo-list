@@ -1,3 +1,6 @@
+.project-component[data-selected="true"] .view-project-button {
+    background-color: lightblue;
+}
 h1 {
     text-align: center;
 }

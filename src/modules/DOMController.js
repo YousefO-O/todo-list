@@ -68,7 +68,8 @@ export function toggleDescriptionDisplay(description) {
 
 function createNewTodoButton() {
     const newTodoButton = document.createElement('button');
-    newTodoButton.textContent = '+';
+    newTodoButton.textContent = 'Add Todo';
+    newTodoButton.classList.add('new-todo-button') 
     newTodoButton.addEventListener('click', ()=>{
         newTodoDialog.showModal();
     });
@@ -92,6 +93,11 @@ export function loadProject(project) {
     const newTodoButton = createNewTodoButton();
     contentDiv.appendChild(newTodoButton);
     selectedProject = project
+    const projectComponents = [...document.querySelectorAll('.project-component')]
+    projectComponents.forEach(projectComponent => {
+        projectComponent.dataset.selected = false;
+    })
+    document.querySelector(`[data-id='${project.id}']`).dataset.selected = 'true';
     loadTodos(project.todos);
 }   
 

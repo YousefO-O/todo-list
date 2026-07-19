@@ -5,6 +5,7 @@ import { setSelectedProject, setProjectBeingEdited } from "./DOMController.js"
 export function createProjectComponent(project) {
     const container = document.createElement('div')
     container.classList.add('project-component')
+    container.dataset.id = project.id
 
     const title = document.createElement('button')
     title.textContent = project.title
