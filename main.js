@@ -1817,7 +1817,7 @@ function createTodoContainer(todo) {
     const container = document.createElement('div');
     container.classList.add('todo-container');
     container.dataset.priority = todo.priority;
-    container.dataset.completed = todo.completed
+    container.dataset.completed = todo.complete
     
     const topContainer = document.createElement('div')
     topContainer.classList.add('todo-top')
@@ -1866,6 +1866,7 @@ function createTodoContainer(todo) {
     const toggleButton = document.createElement('input');
     toggleButton.type = 'checkbox';
     toggleButton.classList.add('todo-toggle-button')
+    toggleButton.checked = todo.complete
     toggleButton.addEventListener('change', () => {
         toggleTodo(todo)
         container.dataset.completed = todo.complete
@@ -1875,8 +1876,9 @@ function createTodoContainer(todo) {
     })
     toggleContainer.appendChild(toggleButton);
 
-
-    
+    title.disabled = todo.complete
+    editButton.disabled = todo.complete
+    deleteButton.disabled = todo.complete
 
     let description
     if(todo.description) {
@@ -1905,7 +1907,6 @@ function createTodoContainer(todo) {
 
 
 
-
 function createProjectComponent(project) {
     const container = document.createElement('div')
     container.classList.add('project-component')
@@ -1915,7 +1916,8 @@ function createProjectComponent(project) {
     title.textContent = project.title
     title.classList.add('view-project-button')
     title.addEventListener('click', ()=>{
-        setSelectedProject(project)
+        if(container.dataset.selected === 'true') return;
+        console.log('Loading project..')
         loadProject(project)
     })
     
@@ -1953,7 +1955,6 @@ function createProjectComponent(project) {
 
 
 let selectedProject = null
-const setSelectedProject = (project) => selectedProject = project
 let todoBeingEdited = null
 let projectBeingEdited = null
 
