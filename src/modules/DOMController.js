@@ -3,6 +3,7 @@ import { editTodoDetails } from "./dataController.js";
 import { createTodoContainer } from "./todo-component.js";
 import { createProject, editProjectTitle } from "./dataController.js";
 import { createProjectComponent } from "./project-component.js";
+import { saveKey } from "./dataController.js";
 let selectedProject = null
 export const setSelectedProject = (project) => selectedProject = project
 let todoBeingEdited = null
@@ -93,6 +94,7 @@ export function loadProject(project) {
     const newTodoButton = createNewTodoButton();
     contentDiv.appendChild(newTodoButton);
     selectedProject = project
+    saveKey('selected-project-id', selectedProject.id)
     const projectComponents = [...document.querySelectorAll('.project-component')]
     projectComponents.forEach(projectComponent => {
         projectComponent.dataset.selected = false;

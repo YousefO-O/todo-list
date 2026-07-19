@@ -13,6 +13,15 @@ function saveData() {
     }
 }
 
+export function saveKey(key, value) {
+    if(checkStorageAvailable('localStorage')) {
+        localStorage.setItem(key, JSON.stringify(value))
+    }
+    else {
+        console.error('Couldn\'t save key!')
+    }
+}
+
 function loadData() {
     if(!checkStorageAvailable('localStorage')) {
         console.warn('Browser doesn\'t support localStorage!')
@@ -34,7 +43,11 @@ function loadData() {
         console.log(project.todos)
         projects.push(project)
     })
+    const selectedProjectId = JSON.parse(localStorage.getItem('selected-project-id'))
     loadProjects(projects)
+    if(selectedProjectId) {
+        loadProject(projects.find(project => project.id === selectedProjectId))
+    }
 }
 
 loadData()
